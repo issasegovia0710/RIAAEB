@@ -5,22 +5,24 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Matiz azul — sistema institucional INVESTIGADORES
+        // Matiz azul — sistema oscuro tecnológico
         primary: {
-          50:  '#eef4ff',
-          100: '#dbe6ff',
-          200: '#bcd2ff',
-          300: '#8fb4ff',
-          400: '#5b8bff',
-          500: '#2f6bff', // azul señal (acento principal)
-          600: '#1a4fe6',
-          700: '#163fc0',
-          800: '#16379b',
-          900: '#0a2540', // tinta profunda (fondos oscuros)
-          950: '#06182b',
+          50:  '#eaf2ff',
+          100: '#d4e4ff',
+          200: '#a9c8ff',
+          300: '#7ba8ff',
+          400: '#4d8dff', // azul señal (acento)
+          500: '#2f6bff',
+          600: '#1f54e6',
+          700: '#1a44bf',
+          800: '#16357f',
+          900: '#101a30', // superficie elevada
+          950: '#0a1224', // superficie base
         },
-        accent: '#2f6bff',
-        ink: '#0a2540',
+        glow: '#38e1ff',     // brillo cian (uso muy puntual)
+        base: '#070b18',     // fondo principal
+        surface: '#0d1426',  // tarjetas
+        line: '#1c2742',     // bordes sutiles
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
@@ -28,12 +30,8 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        card: '0 1px 2px rgba(10,37,64,0.06), 0 8px 24px rgba(10,37,64,0.06)',
-        lift: '0 12px 40px rgba(10,37,64,0.14)',
-      },
-      borderRadius: {
-        xl: '0.9rem',
-        '2xl': '1.25rem',
+        card: '0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35)',
+        glow: '0 0 0 1px rgba(77,141,255,0.25), 0 8px 40px rgba(77,141,255,0.18)',
       },
     },
   },

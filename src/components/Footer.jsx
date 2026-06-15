@@ -1,18 +1,18 @@
 // frontend/src/components/Footer.jsx
 import { useState } from 'react';
-import { FlaskConical, Twitter, Linkedin, Github, Send } from 'lucide-react';
+import { Network, Twitter, Linkedin, Github, Send } from 'lucide-react';
 
-const RAPIDOS = [
+const NAV = [
   { label: 'Inicio', href: '#inicio' },
   { label: 'Nosotros', href: '#nosotros' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Noticias', href: '#noticias' },
+  { label: 'Investigaciones', href: '#investigaciones' },
+  { label: 'Investigadores', href: '#investigadores' },
 ];
 const RECURSOS = [
-  { label: 'Publicaciones', href: '#noticias' },
-  { label: 'Datos abiertos', href: '#noticias' },
-  { label: 'Repositorio', href: '#noticias' },
-  { label: 'Mentoría', href: '#noticias' },
+  { label: 'Publicaciones', href: '#investigaciones' },
+  { label: 'Datos abiertos', href: '#investigaciones' },
+  { label: 'Noticias', href: '#noticias' },
+  { label: 'Convocatorias', href: '#noticias' },
 ];
 
 export default function Footer() {
@@ -21,62 +21,51 @@ export default function Footer() {
 
   const onSubscribe = (e) => {
     e.preventDefault();
-    if (correo.includes('@')) {
-      setSuscrito(true);
-      setCorreo('');
-    }
+    if (correo.includes('@')) { setSuscrito(true); setCorreo(''); }
   };
 
   return (
-    <footer className="bg-primary-950 text-primary-100/70">
+    <footer className="border-t border-line bg-base">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-10 lg:grid-cols-4">
-          {/* Marca */}
           <div>
             <div className="mb-4 flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary-500 text-white">
-                <FlaskConical size={18} />
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary-400 text-base">
+                <Network size={18} />
               </span>
-              <span className="font-display text-lg font-700 text-white">INVESTIGADORES</span>
+              <span className="font-display text-base font-700 text-white">Red IA · Equidad</span>
             </div>
-            <p className="text-sm leading-relaxed">
-              Equipo de investigación dedicado a producir y difundir conocimiento con datos abiertos y métodos reproducibles.
+            <p className="text-sm leading-relaxed text-slate-400">
+              Red de Inteligencia Artificial Aplicada para la Equidad y el Bienestar. Investigación con impacto social, datos abiertos y métodos reproducibles.
             </p>
             <div className="mt-5 flex gap-3">
               {[Twitter, Linkedin, Github].map((Icon, i) => (
-                <a key={i} href="#" aria-label="Red social" className="grid h-9 w-9 place-items-center rounded-lg bg-white/5 text-primary-200 transition-colors hover:bg-primary-500 hover:text-white">
+                <a key={i} href="#" aria-label="Red social" className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface/60 text-slate-400 transition-colors hover:border-primary-400 hover:text-primary-300">
                   <Icon size={16} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Enlaces rápidos */}
           <div>
             <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-white">Navegación</h4>
             <ul className="space-y-2.5 text-sm">
-              {RAPIDOS.map((l) => (
-                <li key={l.label}><a href={l.href} className="hover:text-white">{l.label}</a></li>
-              ))}
+              {NAV.map((l) => <li key={l.label}><a href={l.href} className="text-slate-400 hover:text-white">{l.label}</a></li>)}
             </ul>
           </div>
 
-          {/* Recursos */}
           <div>
             <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-white">Recursos</h4>
             <ul className="space-y-2.5 text-sm">
-              {RECURSOS.map((l) => (
-                <li key={l.label}><a href={l.href} className="hover:text-white">{l.label}</a></li>
-              ))}
+              {RECURSOS.map((l) => <li key={l.label}><a href={l.href} className="text-slate-400 hover:text-white">{l.label}</a></li>)}
             </ul>
           </div>
 
-          {/* Newsletter */}
           <div>
             <h4 className="mb-4 font-mono text-xs uppercase tracking-widest text-white">Boletín</h4>
-            <p className="mb-3 text-sm">Recibe nuestras publicaciones más recientes.</p>
+            <p className="mb-3 text-sm text-slate-400">Recibe nuestras publicaciones más recientes.</p>
             {suscrito ? (
-              <p className="rounded-lg bg-primary-500/20 px-4 py-3 text-sm text-primary-100">¡Gracias por suscribirte!</p>
+              <p className="rounded-lg bg-primary-400/15 px-4 py-3 text-sm text-primary-200">¡Gracias por suscribirte!</p>
             ) : (
               <form onSubmit={onSubscribe} className="flex gap-2">
                 <input
@@ -84,9 +73,9 @@ export default function Footer() {
                   value={correo}
                   onChange={(e) => setCorreo(e.target.value)}
                   placeholder="tu@correo.com"
-                  className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-primary-200/40 outline-none focus:border-primary-400"
+                  className="w-full rounded-lg border border-line bg-surface/60 px-3 py-2.5 text-sm text-white outline-none placeholder:text-slate-600 focus:border-primary-400"
                 />
-                <button type="submit" aria-label="Suscribirse" className="grid h-[42px] w-11 shrink-0 place-items-center rounded-lg bg-primary-500 text-white transition-colors hover:bg-primary-400">
+                <button type="submit" aria-label="Suscribirse" className="grid h-[42px] w-11 shrink-0 place-items-center rounded-lg bg-primary-400 text-base transition-colors hover:bg-primary-300">
                   <Send size={15} />
                 </button>
               </form>
@@ -94,8 +83,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-xs sm:flex-row">
-          <p>© {new Date().getFullYear()} INVESTIGADORES. Todos los derechos reservados.</p>
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-line pt-7 text-xs text-slate-500 sm:flex-row">
+          <p>© {new Date().getFullYear()} Red de IA Aplicada para la Equidad y el Bienestar. Todos los derechos reservados.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white">Aviso de privacidad</a>
             <a href="#" className="hover:text-white">Términos y condiciones</a>

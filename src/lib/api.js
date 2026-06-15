@@ -13,7 +13,8 @@ async function request(path, options = {}) {
   return json.data;
 }
 
+export const getInvestigadores = () => request('/investigadores');
+export const getInvestigaciones = () => request('/investigaciones');
 export const getNoticias = () => request('/noticias');
-export const getServicios = () => request('/servicios');
 export const enviarContacto = (payload) =>
   request('/contacto', { method: 'POST', body: JSON.stringify(payload) });

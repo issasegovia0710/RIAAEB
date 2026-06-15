@@ -6,12 +6,8 @@ import { getNoticias } from '../lib/api.js';
 
 function formatoFecha(fecha) {
   try {
-    return new Date(fecha).toLocaleDateString('es-MX', {
-      day: '2-digit', month: 'long', year: 'numeric',
-    });
-  } catch {
-    return fecha;
-  }
+    return new Date(fecha).toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
+  } catch { return fecha; }
 }
 
 export default function News() {
@@ -25,24 +21,24 @@ export default function News() {
   }, []);
 
   return (
-    <section id="noticias" className="py-24">
+    <section id="noticias" className="border-t border-line py-24">
       <div className="mx-auto max-w-7xl px-6">
         <SectionTitle
-          index="04"
-          eyebrow="Noticias y publicaciones"
-          title="Lo último del equipo"
-          subtitle="Hallazgos, eventos, convenios y datos abiertos. Aquí compartimos los avances más recientes de nuestras líneas de investigación."
+          index="03"
+          eyebrow="Noticias"
+          title="Lo último de la Red"
+          subtitle="Anuncios, eventos, convenios y convocatorias. Aquí compartimos los avances más recientes."
         />
 
         <div className="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
           {estado === 'cargando' &&
             Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="h-96 animate-pulse rounded-2xl border border-slate-200 bg-slate-50" />
+              <div key={i} className="h-96 animate-pulse rounded-2xl border border-line bg-surface/60" />
             ))}
 
           {estado === 'error' && (
-            <p className="col-span-full rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
-              No pudimos cargar las noticias. Asegúrate de que el backend esté en ejecución.
+            <p className="col-span-full rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-sm text-red-300">
+              No pudimos cargar las noticias. Verifica que el backend esté en ejecución.
             </p>
           )}
 
@@ -50,7 +46,7 @@ export default function News() {
             noticias.map((n) => (
               <article
                 key={n.id}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift"
+                className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:border-primary-400/50 hover:shadow-glow"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
@@ -58,23 +54,21 @@ export default function News() {
                     alt={n.titulo}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute left-4 top-4 rounded-full bg-primary-500 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-surface/90 to-transparent" />
+                  <span className="absolute left-4 top-4 rounded-full bg-primary-400 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-base">
                     {n.categoria}
                   </span>
                 </div>
                 <div className="flex flex-1 flex-col p-6">
-                  <p className="mb-3 flex items-center gap-1.5 font-mono text-xs text-slate-400">
+                  <p className="mb-3 flex items-center gap-1.5 font-mono text-xs text-slate-500">
                     <Calendar size={13} /> {formatoFecha(n.fecha)}
                   </p>
-                  <h3 className="font-display text-lg font-700 leading-snug text-ink">{n.titulo}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">{n.extracto}</p>
-                  <a
-                    href="#contacto"
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-600 text-primary-600"
-                  >
+                  <h3 className="font-display text-lg font-700 leading-snug text-white">{n.titulo}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400">{n.extracto}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-600 text-primary-400">
                     Leer más
                     <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </a>
+                  </span>
                 </div>
               </article>
             ))}
