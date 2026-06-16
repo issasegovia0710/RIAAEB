@@ -6,18 +6,14 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
+body { @apply bg-base text-slate-300 font-sans antialiased; }
 
-body {
-  @apply bg-base text-slate-300 font-sans antialiased;
-}
-
-/* Resplandor radial de fondo (atmósfera tecnológica) */
+/* Resplandor radial de fondo */
 .glow-bg {
   background:
     radial-gradient(60% 50% at 70% 0%, rgba(77,141,255,0.16), transparent 70%),
     radial-gradient(40% 40% at 20% 10%, rgba(56,225,255,0.08), transparent 70%);
 }
-
 /* Retícula sutil */
 .grid-bg {
   background-image:
@@ -26,6 +22,60 @@ body {
   background-size: 48px 48px;
 }
 
+/* ---------- Aparición al hacer scroll ---------- */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+  will-change: opacity, transform;
+}
+.reveal--in { opacity: 1; transform: translateY(0); }
+
+/* ---------- Keyframes ---------- */
+@keyframes pulseGlow {
+  0%,100% { opacity:.6; box-shadow:0 0 6px rgba(56,225,255,.6); }
+  50%     { opacity:1;  box-shadow:0 0 14px rgba(56,225,255,.9); }
+}
+.animate-pulse-glow { animation: pulseGlow 2.4s ease-in-out infinite; }
+
+@keyframes fadeUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+.animate-fade-up { animation: fadeUp .9s cubic-bezier(.22,1,.36,1) both; }
+
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: spinSlow 18s linear infinite; }
+.animate-spin-rev  { animation: spinSlow 26s linear infinite reverse; }
+
+@keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+.animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* Barrido de brillo para botones/cards */
+@keyframes shine { from { transform: translateX(-120%); } to { transform: translateX(220%); } }
+
+/* ---------- Componentes de UI ---------- */
+/* Botón con barrido de luz */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content:""; position:absolute; top:0; left:0; height:100%; width:40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  transform: translateX(-120%);
+}
+.btn-shine:hover::after { animation: shine .8s ease; }
+
+/* Tarjeta con luz que sigue al cursor (usa --mx / --my en %) */
+.spotlight { position: relative; }
+.spotlight::before {
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(77,141,255,.18), transparent 60%);
+  opacity:0; transition: opacity .3s;
+}
+.spotlight:hover::before { opacity:1; }
+
+/* Modal */
+@keyframes modalIn { from {opacity:0; transform:translateY(16px) scale(.98);} to {opacity:1; transform:translateY(0) scale(1);} }
+.animate-modal-in { animation: modalIn .35s cubic-bezier(.22,1,.36,1) both; }
+@keyframes overlayIn { from {opacity:0;} to {opacity:1;} }
+.animate-overlay-in { animation: overlayIn .25s ease both; }
+
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
 }
