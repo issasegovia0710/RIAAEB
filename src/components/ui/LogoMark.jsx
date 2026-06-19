@@ -9,18 +9,18 @@ export default function LogoMark({ size = 36 }) {
       <svg viewBox="0 0 40 40" width={size * 0.7} height={size * 0.7} aria-hidden="true">
         <defs>
           <radialGradient id="riaCore" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#38e1ff" />
-            <stop offset="100%" stopColor="#4d8dff" />
+            <stop offset="0%" stopColor="#ff5a6e" />
+            <stop offset="100%" stopColor="#e11d3a" />
           </radialGradient>
         </defs>
 
         {/* anillos orbitando */}
-        <g fill="none" stroke="#4d8dff" strokeWidth="1.4" opacity="0.8">
+        <g fill="none" stroke="#e11d3a" strokeWidth="1.4" opacity="0.8">
           <ellipse cx="20" cy="20" rx="16" ry="7">
             <animateTransform attributeName="transform" type="rotate"
               from="0 20 20" to="360 20 20" dur="6s" repeatCount="indefinite" />
           </ellipse>
-          <ellipse cx="20" cy="20" rx="16" ry="7" stroke="#38e1ff" opacity="0.6">
+          <ellipse cx="20" cy="20" rx="16" ry="7" stroke="#ff5a6e" opacity="0.6">
             <animateTransform attributeName="transform" type="rotate"
               from="60 20 20" to="420 20 20" dur="8s" repeatCount="indefinite" />
           </ellipse>

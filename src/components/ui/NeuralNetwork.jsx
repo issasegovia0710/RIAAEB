@@ -28,9 +28,9 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
     let pulses = [];
     const mouse = { x: -9999, y: -9999 };
 
-    const COL_LINE = '120,170,255';
-    const COL_NODE = '77,141,255';
-    const COL_GLOW = '56,225,255';
+    const COL_LINE = '225,29,58';
+    const COL_NODE = '225,29,58';
+    const COL_GLOW = '255,90,110';
 
     function resize() {
       const rect = canvas.getBoundingClientRect();
@@ -72,7 +72,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
 
       for (const s of stars) {
         const a = reduce ? s.a : s.a * (0.6 + 0.4 * Math.sin(time + s.tw));
-        ctx.fillStyle = `rgba(180,210,255,${a})`;
+        ctx.fillStyle = `rgba(225,29,58,${a*0.5})`;
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
@@ -101,7 +101,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
           const dy = a.y - b.y;
           const dist = Math.hypot(dx, dy);
           if (dist < LINK_DIST) {
-            const alpha = (1 - dist / LINK_DIST) * 0.7 * intensity;
+            const alpha = (1 - dist / LINK_DIST) * 0.32 * intensity;
             ctx.strokeStyle = `rgba(${COL_LINE},${alpha})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -138,14 +138,14 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
 
         const haloR = n.r * (near ? 7 : 4.5);
         const halo = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, haloR);
-        halo.addColorStop(0, `rgba(${near ? COL_GLOW : COL_NODE},${0.45 * twinkle})`);
+        halo.addColorStop(0, `rgba(${near ? COL_GLOW : COL_NODE},${0.28 * twinkle})`);
         halo.addColorStop(1, `rgba(${COL_NODE},0)`);
         ctx.fillStyle = halo;
         ctx.beginPath();
         ctx.arc(n.x, n.y, haloR, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = `rgba(${near ? COL_GLOW : '190,215,255'},${twinkle})`;
+        ctx.fillStyle = `rgba(${near ? COL_GLOW : '225,29,58'},${twinkle*0.6})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();

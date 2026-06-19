@@ -6,9 +6,9 @@ export default function Button({ children, href = '#', variant = 'primary', icon
     'btn-shine group inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-600 transition-all duration-300';
   const variants = {
     primary:
-      'bg-gradient-to-r from-primary-500 to-primary-400 text-base shadow-[0_0_0_1px_rgba(77,141,255,.4),0_8px_30px_rgba(77,141,255,.35)] hover:shadow-[0_0_0_1px_rgba(56,225,255,.6),0_10px_40px_rgba(56,225,255,.45)] hover:-translate-y-0.5',
+      'bg-gradient-to-r from-primary-500 to-primary-400 text-white shadow-[0_8px_30px_rgba(225,29,58,.30)] hover:shadow-[0_12px_40px_rgba(225,29,58,.45)] hover:-translate-y-0.5',
     outline:
-      'border border-line bg-surface/40 text-slate-200 backdrop-blur hover:border-primary-400 hover:text-white hover:-translate-y-0.5',
+      'border border-line bg-white text-ink hover:border-primary-400 hover:text-primary-600 hover:-translate-y-0.5 hover:shadow-card',
   };
   const cls = `${base} ${variants[variant]}`;
   const content = (

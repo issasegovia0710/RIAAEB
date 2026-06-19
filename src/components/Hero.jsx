@@ -20,20 +20,24 @@ export default function Hero() {
   return (
     <section id="inicio" className="relative overflow-hidden pt-32 pb-20 sm:pt-40">
       {/* velo para legibilidad del texto sobre el fondo global */}
-      <div className="pointer-events-none absolute inset-0 -z-[1] bg-gradient-to-r from-base via-base/60 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 -z-[1] bg-gradient-to-r from-white via-white/70 to-transparent" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="animate-fade-up">
-            <h1 className="font-display text-4xl font-700 leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
+            <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-primary-600">
+              <span className="h-1.5 w-1.5 animate-pulse-glow rounded-full bg-primary-400" />
+              Red de investigación abierta
+            </span>
+            <h1 className="font-display text-4xl font-700 leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
               Tecnología que impulsa
               <br />
-              <span className="text-primary-400">
+              <span className="text-gradient">
                 {palabra}
-                <span className="ml-1 inline-block w-[3px] -translate-y-1 animate-pulse bg-glow align-middle" style={{ height: '0.9em' }} />
+                <span className="ml-1 inline-block w-[3px] -translate-y-1 animate-pulse bg-primary-400 align-middle" style={{ height: '0.9em' }} />
               </span>
             </h1>
-            <p className="mt-6 max-w-md text-lg leading-relaxed text-slate-300/90">
+            <p className="mt-6 max-w-md text-lg leading-relaxed text-slate-500">
               Investigamos y difundimos el avance tecnológico en múltiples campos, con
               datos abiertos y métodos reproducibles, para que beneficie a todas las personas.
             </p>
@@ -52,21 +56,21 @@ export default function Hero() {
           {VALORES.map((v, i) => (
             <div
               key={v.titulo}
-              className="spotlight group flex animate-fade-up items-start gap-3 rounded-xl border border-transparent p-3 transition-all duration-300 hover:border-line hover:bg-surface/40"
+              className="spotlight group flex animate-fade-up items-start gap-3 rounded-xl border border-transparent p-3 transition-all duration-300 hover:border-line hover:bg-white hover:shadow-card"
               style={{ animationDelay: `${0.2 + i * 0.12}s` }}
             >
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary-400/10 text-primary-300 transition-all duration-300 group-hover:bg-primary-400 group-hover:text-base group-hover:shadow-[0_0_18px_rgba(56,225,255,.5)]">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary-50 text-primary-500 transition-all duration-300 group-hover:bg-primary-500 group-hover:text-white group-hover:shadow-[0_0_18px_rgba(225,29,58,.4)]">
                 <v.icon size={18} />
               </span>
               <div>
-                <p className="font-600 text-white">{v.titulo}</p>
-                <p className="text-sm text-slate-400">{v.frase}</p>
+                <p className="font-600 text-ink">{v.titulo}</p>
+                <p className="text-sm text-slate-500">{v.frase}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-10 flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-500">
+        <p className="mt-10 flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-widest text-slate-400">
           <ArrowDown size={14} className="animate-bounce" /> Desplázate para descubrir
         </p>
       </div>

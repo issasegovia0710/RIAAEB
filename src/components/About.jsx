@@ -36,7 +36,7 @@ export default function About() {
 
   return (
     <section id="nosotros" className="relative overflow-hidden py-24">
-      <div className="glow-bg pointer-events-none absolute inset-0 opacity-40" />
+      <div className="glow-bg pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
         <Spotlight className="group relative overflow-hidden rounded-2xl border border-line shadow-card">
           <img
@@ -44,12 +44,12 @@ export default function About() {
             alt="Equipo de investigación de la Red"
             className="h-[460px] w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-base/70 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-primary-400/20" />
           <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
             {CAMPOS.map((c) => (
-              <span key={c.label} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-base/70 px-3 py-1 text-xs text-slate-200 backdrop-blur">
-                <c.icon size={12} className="text-primary-300" /> {c.label}
+              <span key={c.label} className="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs text-ink shadow-sm backdrop-blur">
+                <c.icon size={12} className="text-primary-500" /> {c.label}
               </span>
             ))}
           </div>
@@ -61,14 +61,14 @@ export default function About() {
             {PILARES.map((p) => (
               <Spotlight
                 key={p.titulo}
-                className="group flex gap-4 rounded-xl border border-line bg-surface/60 p-5 transition-all duration-300 hover:border-primary-400/50 hover:shadow-[0_10px_40px_rgba(77,141,255,.15)]"
+                className="group flex gap-4 rounded-xl border border-line bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-lift"
               >
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-400/10 text-primary-300 transition-all duration-300 group-hover:bg-primary-400 group-hover:text-base group-hover:shadow-[0_0_18px_rgba(56,225,255,.5)]">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-50 text-primary-500 transition-all duration-300 group-hover:bg-primary-500 group-hover:text-white group-hover:shadow-[0_0_18px_rgba(225,29,58,.4)]">
                   <p.icon size={20} />
                 </span>
                 <div>
-                  <p className="font-display font-700 text-white">{p.titulo}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-400">{p.texto}</p>
+                  <p className="font-display font-700 text-ink">{p.titulo}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-500">{p.texto}</p>
                 </div>
               </Spotlight>
             ))}

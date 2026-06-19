@@ -6,19 +6,21 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
-body { @apply bg-base text-slate-300 font-sans antialiased; }
+body { @apply bg-base text-slate-600 font-sans antialiased; }
 
-/* Resplandor radial de fondo */
+::selection { background: rgba(245,69,90,0.18); color: #0f1222; }
+
+/* Resplandor radial rojo, muy sutil para fondo claro */
 .glow-bg {
   background:
-    radial-gradient(60% 50% at 70% 0%, rgba(77,141,255,0.16), transparent 70%),
-    radial-gradient(40% 40% at 20% 10%, rgba(56,225,255,0.08), transparent 70%);
+    radial-gradient(60% 50% at 75% 0%, rgba(245,69,90,0.10), transparent 70%),
+    radial-gradient(45% 45% at 15% 8%, rgba(255,90,110,0.07), transparent 70%);
 }
-/* Retícula sutil */
+/* Retícula sutil sobre claro */
 .grid-bg {
   background-image:
-    linear-gradient(to right, rgba(120,160,255,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(120,160,255,0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(15,18,34,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15,18,34,0.035) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -32,8 +34,8 @@ body { @apply bg-base text-slate-300 font-sans antialiased; }
 
 /* ---------- Keyframes ---------- */
 @keyframes pulseGlow {
-  0%,100% { opacity:.6; box-shadow:0 0 6px rgba(56,225,255,.6); }
-  50%     { opacity:1;  box-shadow:0 0 14px rgba(56,225,255,.9); }
+  0%,100% { opacity:.6; box-shadow:0 0 6px rgba(245,69,90,.45); }
+  50%     { opacity:1;  box-shadow:0 0 14px rgba(245,69,90,.7); }
 }
 .animate-pulse-glow { animation: pulseGlow 2.4s ease-in-out infinite; }
 
@@ -47,15 +49,22 @@ body { @apply bg-base text-slate-300 font-sans antialiased; }
 @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
 .animate-floaty { animation: floaty 6s ease-in-out infinite; }
 
+/* Texto con degradado rojo animado */
+.text-gradient {
+  background: linear-gradient(100deg, #e11d3a, #ff5a6e, #f5455a, #c30f2b);
+  background-size: 220% 220%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: gradientShift 7s ease infinite;
+}
+@keyframes gradientShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+
 /* Barrido de brillo para botones/cards */
 @keyframes shine { from { transform: translateX(-120%); } to { transform: translateX(220%); } }
-
-/* ---------- Componentes de UI ---------- */
-/* Botón con barrido de luz */
 .btn-shine { position: relative; overflow: hidden; }
 .btn-shine::after {
   content:""; position:absolute; top:0; left:0; height:100%; width:40%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
   transform: translateX(-120%);
 }
 .btn-shine:hover::after { animation: shine .8s ease; }
@@ -64,7 +73,7 @@ body { @apply bg-base text-slate-300 font-sans antialiased; }
 .spotlight { position: relative; }
 .spotlight::before {
   content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-  background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(77,141,255,.18), transparent 60%);
+  background: radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(245,69,90,.10), transparent 60%);
   opacity:0; transition: opacity .3s;
 }
 .spotlight:hover::before { opacity:1; }
@@ -74,6 +83,31 @@ body { @apply bg-base text-slate-300 font-sans antialiased; }
 .animate-modal-in { animation: modalIn .35s cubic-bezier(.22,1,.36,1) both; }
 @keyframes overlayIn { from {opacity:0;} to {opacity:1;} }
 .animate-overlay-in { animation: overlayIn .25s ease both; }
+
+/* Zoom suave (cards de investigaciones) */
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.08); } }
+
+/* ---------- Panel de administración (tema oscuro aislado) ----------
+   El sitio público es claro, pero el panel /admin reutiliza tokens
+   (bg-base, bg-surface, text-white…) que ahora son claros. Para que el
+   admin siga siendo legible sin reescribirlo, se le reaplica un tema
+   oscuro propio dentro de .admin-shell.                                */
+.admin-shell { background:#070b18; color:#cbd5e1; min-height:100vh; }
+.admin-shell .bg-base    { background-color:#070b18 !important; }
+.admin-shell .bg-base\/50,
+.admin-shell .bg-base\/60,
+.admin-shell .bg-base\/70,
+.admin-shell .bg-base\/80,
+.admin-shell .bg-base\/95 { background-color:rgba(7,11,24,.7) !important; }
+.admin-shell .bg-surface,
+.admin-shell .bg-surface\/40,
+.admin-shell .bg-surface\/60 { background-color:#0d1426 !important; }
+.admin-shell .border-line { border-color:#1c2742 !important; }
+.admin-shell .text-white  { color:#ffffff !important; }
+.admin-shell .text-slate-300 { color:#cbd5e1 !important; }
+.admin-shell .text-slate-400 { color:#94a3b8 !important; }
+.admin-shell .text-slate-500 { color:#64748b !important; }
+.admin-shell .placeholder\:text-slate-600::placeholder { color:#475569 !important; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }

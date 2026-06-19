@@ -33,19 +33,19 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'border-b border-line bg-base/80 backdrop-blur-md' : 'bg-transparent'}`}>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'border-b border-line bg-white/85 shadow-sm backdrop-blur-md' : 'bg-transparent'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#inicio" className="group flex items-center gap-2.5">
           <LogoMark />
-          <span className="font-display text-lg font-700 leading-none tracking-[0.04em] text-white">
-            RIA<span className="text-primary-400">AEB</span>
+          <span className="font-display text-lg font-700 leading-none tracking-[0.04em] text-ink">
+            RIA<span className="text-primary-500">AEB</span>
           </span>
         </a>
 
         <nav className="hidden items-center gap-6 lg:flex">
           {NAV.map((item) => (
             <a key={item.href} href={item.href}
-              className={`text-sm font-500 transition-colors ${active === item.href ? 'text-primary-400' : 'text-slate-400 hover:text-white'}`}>
+              className={`relative text-sm font-500 transition-colors after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:bg-primary-400 after:transition-all after:duration-300 ${active === item.href ? 'text-primary-600 after:w-full' : 'text-slate-500 after:w-0 hover:text-ink hover:after:w-full'}`}>
               {item.label}
             </a>
           ))}
@@ -53,26 +53,26 @@ export default function Header() {
 
         <button
           onClick={abrirContacto}
-          className="btn-shine hidden rounded-xl bg-gradient-to-r from-primary-500 to-primary-400 px-5 py-2.5 text-sm font-600 text-base transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(56,225,255,.4)] lg:inline-block"
+          className="btn-shine hidden rounded-xl bg-gradient-to-r from-primary-500 to-primary-400 px-5 py-2.5 text-sm font-600 text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(225,29,58,.4)] lg:inline-block"
         >
           Súmate a la Red
         </button>
 
-        <button className="grid h-10 w-10 place-items-center rounded-lg text-white lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Abrir menú">
+        <button className="grid h-10 w-10 place-items-center rounded-lg text-ink lg:hidden" onClick={() => setOpen((v) => !v)} aria-label="Abrir menú">
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      <div className={`overflow-hidden border-t border-line bg-base/95 backdrop-blur-md transition-all duration-300 lg:hidden ${open ? 'max-h-96' : 'max-h-0'}`}>
+      <div className={`overflow-hidden border-t border-line bg-white/95 backdrop-blur-md transition-all duration-300 lg:hidden ${open ? 'max-h-96' : 'max-h-0'}`}>
         <nav className="flex flex-col gap-1 px-6 py-4">
           {NAV.map((item) => (
             <a key={item.href} href={item.href} onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-500 text-slate-300 hover:bg-primary-900/60 hover:text-white">
+              className="rounded-lg px-3 py-2.5 text-sm font-500 text-slate-600 hover:bg-primary-50 hover:text-primary-600">
               {item.label}
             </a>
           ))}
           <button onClick={() => { setOpen(false); abrirContacto(); }}
-            className="mt-2 rounded-lg bg-primary-400 px-3 py-2.5 text-left text-sm font-600 text-base">
+            className="mt-2 rounded-lg bg-primary-500 px-3 py-2.5 text-left text-sm font-600 text-white">
             Súmate a la Red
           </button>
         </nav>

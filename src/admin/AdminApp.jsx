@@ -7,5 +7,9 @@ import Dashboard from './Dashboard.jsx';
 export default function AdminApp() {
   const [logged, setLogged] = useState(isLogged());
   const salir = () => { clearToken(); setLogged(false); };
-  return logged ? <Dashboard onLogout={salir} /> : <Login onLogin={() => setLogged(true)} />;
+  return (
+    <div className="admin-shell">
+      {logged ? <Dashboard onLogout={salir} /> : <Login onLogin={() => setLogged(true)} />}
+    </div>
+  );
 }

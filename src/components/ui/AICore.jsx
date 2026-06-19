@@ -16,9 +16,9 @@ export default function AICore() {
       <svg viewBox="0 0 260 260" className="relative h-full w-full" aria-hidden="true">
         <defs>
           <radialGradient id="core" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#aee9ff" />
-            <stop offset="45%" stopColor="#38e1ff" />
-            <stop offset="100%" stopColor="#2f6bff" />
+            <stop offset="0%" stopColor="#ffb3bd" />
+            <stop offset="45%" stopColor="#ff5a6e" />
+            <stop offset="100%" stopColor="#c30f2b" />
           </radialGradient>
         </defs>
 
@@ -27,7 +27,7 @@ export default function AICore() {
           <g key={r} style={{ transformOrigin: '130px 130px' }}
              className={i % 2 ? 'animate-spin-rev' : 'animate-spin-slow'}>
             <circle cx="130" cy="130" r={r} fill="none"
-              stroke={i === 1 ? '#38e1ff' : '#4d8dff'}
+              stroke={i === 1 ? '#ff5a6e' : '#e11d3a'}
               strokeOpacity={0.5 - i * 0.08} strokeWidth="1"
               strokeDasharray={i === 1 ? '4 8' : '2 10'} />
           </g>
@@ -35,13 +35,13 @@ export default function AICore() {
 
         {/* arcos decorativos */}
         <g style={{ transformOrigin: '130px 130px' }} className="animate-spin-slow">
-          <path d="M130 8 A122 122 0 0 1 252 130" fill="none" stroke="#38e1ff" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" />
-          <path d="M130 252 A122 122 0 0 1 8 130" fill="none" stroke="#4d8dff" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M130 8 A122 122 0 0 1 252 130" fill="none" stroke="#ff5a6e" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M130 252 A122 122 0 0 1 8 130" fill="none" stroke="#e11d3a" strokeOpacity="0.5" strokeWidth="1.5" strokeLinecap="round" />
         </g>
 
         {/* partículas en órbita */}
         {particles.map((p, i) => (
-          <circle key={i} cx={p.cx} cy={p.cy} r="2.6" fill="#9fdcff"
+          <circle key={i} cx={p.cx} cy={p.cy} r="2.6" fill="#ff8a98"
             style={{ transformOrigin: '130px 130px' }}
             className={p.rev ? 'animate-spin-rev' : 'animate-spin-slow'}>
             <animate attributeName="opacity" values="0.4;1;0.4" dur={`${2 + (i % 3)}s`} repeatCount="indefinite" />
@@ -52,7 +52,7 @@ export default function AICore() {
         <circle cx="130" cy="130" r="22" fill="url(#core)">
           <animate attributeName="r" values="20;26;20" dur="2.6s" repeatCount="indefinite" />
         </circle>
-        <circle cx="130" cy="130" r="34" fill="none" stroke="#38e1ff" strokeOpacity="0.4">
+        <circle cx="130" cy="130" r="34" fill="none" stroke="#ff5a6e" strokeOpacity="0.4">
           <animate attributeName="r" values="30;52;30" dur="2.6s" repeatCount="indefinite" />
           <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="2.6s" repeatCount="indefinite" />
         </circle>
