@@ -80,10 +80,10 @@ function Tarjeta({ inv, i }) {
 
       {/* Etiqueta superior (tipo / año) */}
       <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-red/45 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-md">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-red px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-md">
           <Globe size={12} /> {inv.tipo}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-red/45 px-2.5 py-1 font-mono text-[11px] text-white backdrop-blur-md">
+        <span className="inline-flex items-center gap-1 rounded-full bg-red px-2.5 py-1 font-mono text-[11px] text-white backdrop-blur-md">
           <Calendar size={11} /> {inv.anio}
         </span>
       </div>
