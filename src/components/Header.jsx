@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import LogoMark from './ui/LogoMark.jsx';
+import IberoLogo from './ui/IberoLogo.jsx';
 import { useContactModal } from '../context/ContactModalContext.jsx';
 
 const NAV = [
@@ -35,8 +36,13 @@ export default function Header() {
   return (
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? 'border-b border-line bg-white/85 shadow-sm backdrop-blur-md' : 'bg-transparent'}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#inicio" className="group flex items-center gap-2.5">
-          <LogoMark />
+        <a href="#inicio" className="group flex items-center gap-3">
+          {/* Logo Universidad Iberoamericana CDMX (en blanco) sobre pill oscuro */}
+          <span className="flex h-9 items-center gap-3 rounded-xl bg-ink px-3 py-1.5 shadow-sm">
+            <IberoLogo />
+            <span className="h-5 w-px bg-white/25" />
+            <LogoMark size={26} />
+          </span>
           <span className="font-display text-lg font-700 leading-none tracking-[0.04em] text-ink">
             RIA<span className="text-primary-500">AEB</span>
           </span>
