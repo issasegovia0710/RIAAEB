@@ -118,7 +118,9 @@ export default function Dashboard({ onLogout }) {
             <button onClick={() => setConfirmar(true)} className="shrink-0 rounded-lg bg-surface px-3 py-2 text-xs font-600 text-red-400">Salir</button>
           </div>
 
-          {tab === 'about' ? <AboutEditor /> : <ResourceManager {...CFG[tab]} />}
+          {tab === 'about'
+            ? <AboutEditor key="about" />
+            : <ResourceManager key={tab} {...CFG[tab]} />}
         </main>
       </div>
 

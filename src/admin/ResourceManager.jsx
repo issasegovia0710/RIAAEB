@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Pencil, Trash2, X, Loader2, Save } from 'lucide-react';
 import FileField from './FileField.jsx';
+import AdminLoader from './AdminLoader.jsx';
 
 function vacio(fields) {
   const o = {};
@@ -109,12 +110,13 @@ export default function ResourceManager({ titulo, api, fields, label }) {
             Guardar
           </button>
         </form>
+      ) : estado === 'cargando' ? (
+        <AdminLoader texto={`Cargando ${titulo.toLowerCase()}…`} />
       ) : (
         /* Lista */
         <div className="overflow-hidden rounded-2xl border border-line">
-          {estado === 'cargando' && <p className="p-6 text-sm text-slate-400">Cargando…</p>}
-          {estado === 'listo' && items.length === 0 && <p className="p-6 text-sm text-slate-400">Sin registros. Crea el primero con “Nuevo”.</p>}
-          {estado === 'listo' && items.map((item) => (
+          {items.length === 0 && <p className="p-6 text-sm text-slate-400">Sin registros. Crea el primero con “Nuevo”.</p>}
+          {items.map((item) => (
             <div key={item.id} className="flex items-center gap-4 border-b border-line bg-surface/40 px-5 py-4 last:border-0 hover:bg-surface/70">
               {item.foto_url || item.imagen_url || item.logo_url ? (
                 <img src={item.foto_url || item.imagen_url || item.logo_url} alt=""

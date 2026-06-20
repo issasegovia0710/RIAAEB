@@ -144,6 +144,25 @@ export default function Investigadores() {
 
   const detener = () => clearInterval(autoRef.current);
 
+  // ── Arrastre con el mouse / dedo ──────────────────────────────
+  const drag = useRef({ activo: false, x0: 0, movido: false });
+  const onPointerDown = (e) => {
+    detener();
+    drag.current = { activo: true, x0: e.clientX, movido: false };
+  };
+  const onPointerMove = (e) => {
+    const d = drag.current;
+    if (!d.activo) return;
+    const dx = e.clientX - d.x0;
+    // Umbral: cada ~90px de arrastre avanza una tarjeta
+    if (Math.abs(dx) > 90) {
+      ir(dx < 0 ? activo + 1 : activo - 1);
+      d.x0 = e.clientX;
+      d.movido = true;
+    }
+  };
+  const onPointerUp = () => { drag.current.activo = false; };
+
   // Coverflow desplegado a lo ANCHO: mayor separación horizontal, menos profundidad.
   const estilo = (i) => {
     let off = i - activo;
@@ -185,23 +204,35 @@ export default function Investigadores() {
 
         {estado === 'listo' && n > 0 && (
           <div className="mt-10">
-            {/* Escenario 3D, ahora a lo ancho */}
+            {/* Escenario 3D, ahora a lo ancho. Arrastrable con el mouse/dedo. */}
             <div
-              className="relative mx-auto flex h-[460px] items-center justify-center overflow-hidden"
+              className="relative mx-auto flex h-[460px] cursor-grab items-center justify-center overflow-hidden touch-pan-y select-none active:cursor-grabbing"
               style={{ perspective: '1600px' }}
               onMouseEnter={detener}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerLeave={onPointerUp}
             >
               {personas.map((p, i) => (
                 <div
                   key={p.id}
                   className="absolute cursor-pointer transition-all duration-700 ease-[cubic-bezier(.22,1,.36,1)]"
                   style={estilo(i)}
-                  onClick={() => { i === activo ? setModal(i) : (ir(i), detener()); }}
+                  onClick={() => {
+                    // Si se acaba de arrastrar, no abrir/cambiar por click
+                    if (drag.current.movido) { drag.current.movido = false; return; }
+                    i === activo ? setModal(i) : (ir(i), detener());
+                  }}
                 >
                   <Card p={p} frente={i === activo} onAbrir={() => setModal(i)} />
                 </div>
               ))}
             </div>
+
+            <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-wider text-slate-400">
+              Arrastra para explorar
+            </p>
 
             {n > 1 && (
               <div className="mt-6 flex items-center justify-center gap-4">

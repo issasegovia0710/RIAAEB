@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Loader2, Save, CheckCircle2 } from 'lucide-react';
 import { getAbout, saveAbout } from '../lib/api.js';
 import FileField from './FileField.jsx';
+import AdminLoader from './AdminLoader.jsx';
 
 const CAMPOS = [
   { name: 'titulo', label: 'Título', type: 'text' },
@@ -36,7 +37,7 @@ export default function AboutEditor() {
     finally { setGuardando(false); }
   };
 
-  if (estado === 'cargando') return <p className="text-sm text-slate-400">Cargando…</p>;
+  if (estado === 'cargando') return <AdminLoader texto="Cargando quiénes somos…" />;
 
   return (
     <div>
