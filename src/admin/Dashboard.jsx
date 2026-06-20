@@ -1,6 +1,6 @@
 // frontend/src/admin/Dashboard.jsx
 import { useState } from 'react';
-import { LogOut, FlaskConical, Newspaper, Users, Building2, Info, ExternalLink } from 'lucide-react';
+import { LogOut, FlaskConical, Newspaper, Users, Building2, Info, ExternalLink, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LogoMark from '../components/ui/LogoMark.jsx';
 import ResourceManager from './ResourceManager.jsx';
@@ -72,6 +72,7 @@ const CFG = {
 
 export default function Dashboard({ onLogout }) {
   const [tab, setTab] = useState('investigaciones');
+  const [confirmar, setConfirmar] = useState(false);
 
   return (
     <div className="min-h-screen bg-base text-slate-300">
@@ -96,7 +97,7 @@ export default function Dashboard({ onLogout }) {
               <Link to="/" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-surface hover:text-white">
                 <ExternalLink size={16} /> Ver sitio
               </Link>
-              <button onClick={onLogout}
+              <button onClick={() => setConfirmar(true)}
                 className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 hover:bg-surface hover:text-red-400">
                 <LogOut size={16} /> Cerrar sesión
               </button>
@@ -114,12 +115,37 @@ export default function Dashboard({ onLogout }) {
                 {t.label}
               </button>
             ))}
-            <button onClick={onLogout} className="shrink-0 rounded-lg bg-surface px-3 py-2 text-xs font-600 text-red-400">Salir</button>
+            <button onClick={() => setConfirmar(true)} className="shrink-0 rounded-lg bg-surface px-3 py-2 text-xs font-600 text-red-400">Salir</button>
           </div>
 
           {tab === 'about' ? <AboutEditor /> : <ResourceManager {...CFG[tab]} />}
         </main>
       </div>
+
+      {/* Confirmación de cierre de sesión */}
+      {confirmar && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="animate-overlay-in absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={() => setConfirmar(false)} />
+          <div className="animate-modal-in relative z-10 w-full max-w-sm rounded-2xl border border-line bg-surface p-6 shadow-lift">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="font-display text-lg font-700 text-white">Cerrar sesión</h3>
+              <button onClick={() => setConfirmar(false)} aria-label="Cancelar"
+                className="grid h-8 w-8 place-items-center rounded-lg border border-line text-slate-400 hover:text-white"><X size={16} /></button>
+            </div>
+            <p className="text-sm text-slate-400">¿Seguro que deseas cerrar la sesión? Tendrás que volver a iniciar sesión para administrar el contenido.</p>
+            <div className="mt-6 flex justify-end gap-3">
+              <button onClick={() => setConfirmar(false)}
+                className="rounded-xl border border-line px-4 py-2.5 text-sm font-600 text-slate-300 transition-colors hover:bg-base">
+                Cancelar
+              </button>
+              <button onClick={() => { setConfirmar(false); onLogout(); }}
+                className="btn-shine inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-500 to-primary-400 px-4 py-2.5 text-sm font-600 text-base hover:-translate-y-0.5">
+                <LogOut size={15} /> Sí, cerrar sesión
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

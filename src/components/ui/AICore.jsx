@@ -48,14 +48,44 @@ export default function AICore() {
           </circle>
         ))}
 
-        {/* núcleo */}
-        <circle cx="130" cy="130" r="22" fill="url(#core)">
-          <animate attributeName="r" values="20;26;20" dur="2.6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="130" cy="130" r="34" fill="none" stroke="#ff5a6e" strokeOpacity="0.4">
-          <animate attributeName="r" values="30;52;30" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="2.6s" repeatCount="indefinite" />
-        </circle>
+        {/* núcleo: el LOGO del sitio (escudo de red neuronal) animado */}
+        <g style={{ transformOrigin: '130px 130px' }}>
+          {/* halo pulsante detrás del logo */}
+          <circle cx="130" cy="130" r="34" fill="none" stroke="#ff5a6e" strokeOpacity="0.4">
+            <animate attributeName="r" values="30;54;30" dur="2.8s" repeatCount="indefinite" />
+            <animate attributeName="stroke-opacity" values="0.5;0;0.5" dur="2.8s" repeatCount="indefinite" />
+          </circle>
+
+          {/* escudo con leve balanceo */}
+          <g style={{ transformOrigin: '130px 130px' }}>
+            <animateTransform attributeName="transform" type="rotate"
+              values="-4 130 130; 4 130 130; -4 130 130" dur="6s" repeatCount="indefinite" />
+            {/* fondo del escudo */}
+            <path d="M130 96 L154 109 L154 131 Q154 152 130 162 Q106 152 106 131 L106 109 Z"
+              fill="url(#core)" stroke="#ff8a98" strokeWidth="1.2" />
+            {/* conexiones internas */}
+            <g stroke="rgba(255,255,255,0.7)" strokeWidth="1" fill="none">
+              <path d="M130 96 L130 128 M106 109 L130 128 L154 109 M106 131 L130 128 L154 131 M130 128 L130 162" />
+            </g>
+            {/* nodos */}
+            <g fill="#ffffff">
+              <circle cx="130" cy="96" r="3" />
+              <circle cx="154" cy="109" r="2.6" />
+              <circle cx="154" cy="131" r="2.6" />
+              <circle cx="106" cy="109" r="2.6" />
+              <circle cx="106" cy="131" r="2.6" />
+              <circle cx="130" cy="162" r="3" />
+            </g>
+          </g>
+
+          {/* núcleo-corazón pulsante */}
+          <circle cx="130" cy="128" r="7" fill="#ffffff">
+            <animate attributeName="r" values="6;8.5;6" dur="2.2s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="130" cy="128" r="3.4" fill="#e11d3a">
+            <animate attributeName="r" values="3;4.4;3" dur="2.2s" repeatCount="indefinite" />
+          </circle>
+        </g>
       </svg>
     </div>
   );
