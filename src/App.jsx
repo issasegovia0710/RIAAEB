@@ -2,6 +2,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { ContactModalProvider } from './context/ContactModalContext.jsx';
 import Home from './Home.jsx';
+import Noticias from './Noticias.jsx';
 import AdminApp from './admin/AdminApp.jsx';
 
 export default function App() {
@@ -12,6 +13,14 @@ export default function App() {
         element={
           <ContactModalProvider>
             <Home />
+          </ContactModalProvider>
+        }
+      />
+      <Route
+        path="/noticias"
+        element={
+          <ContactModalProvider>
+            <Noticias />
           </ContactModalProvider>
         }
       />

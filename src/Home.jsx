@@ -1,4 +1,5 @@
 // frontend/src/Home.jsx
+import { useEffect } from 'react';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -12,6 +13,16 @@ import Reveal from './components/ui/Reveal.jsx';
 import SiteBackground from './components/ui/SiteBackground.jsx';
 
 export default function Home() {
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      // pequeño retraso para que las secciones ya estén montadas
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   return (
     <>
       <SiteBackground />
