@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { LogOut, FlaskConical, Newspaper, Users, Building2, Info, ExternalLink, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LogoMark from '../components/ui/LogoMark.jsx';
+import Portal from '../components/ui/Portal.jsx';
 import ResourceManager from './ResourceManager.jsx';
 import AboutEditor from './AboutEditor.jsx';
 import {
@@ -126,9 +127,10 @@ export default function Dashboard({ onLogout }) {
 
       {/* Confirmación de cierre de sesión */}
       {confirmar && (
+        <Portal>
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
           <div className="animate-overlay-in absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={() => setConfirmar(false)} />
-          <div className="animate-modal-in relative z-10 w-full max-w-sm rounded-2xl border border-line bg-surface p-6 shadow-lift">
+          <div className="admin-shell animate-modal-in relative z-10 w-full max-w-sm rounded-2xl border border-line bg-surface p-6 shadow-lift">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="font-display text-lg font-700 text-white">Cerrar sesión</h3>
               <button onClick={() => setConfirmar(false)} aria-label="Cancelar"
@@ -147,6 +149,7 @@ export default function Dashboard({ onLogout }) {
             </div>
           </div>
         </div>
+        </Portal>
       )}
     </div>
   );

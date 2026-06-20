@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { X, Send, CheckCircle2, Loader2, Mail, Phone, MapPin } from 'lucide-react';
 import { enviarContacto } from '../lib/api.js';
+import Portal from './ui/Portal.jsx';
 
 const INICIAL = { nombre: '', correo: '', telefono: '', asunto: '', mensaje: '' };
 const DATOS = [
@@ -45,6 +46,7 @@ export default function ContactModal({ open, onClose }) {
   };
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="animate-overlay-in absolute inset-0 bg-ink/50 backdrop-blur-sm" onClick={onClose} />
       <div className="animate-modal-in relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-line bg-white shadow-lift">
@@ -105,6 +107,7 @@ export default function ContactModal({ open, onClose }) {
         </div>
       </div>
     </div>
+    </Portal>
   );
 }
 

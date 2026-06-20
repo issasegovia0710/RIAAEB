@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpRight, Users, X, ExternalLink } from 'lucide-react';
 import SectionTitle from './ui/SectionTitle.jsx';
+import Portal from './ui/Portal.jsx';
 import { getInvestigadores } from '../lib/api.js';
 
 /* Tarjeta del carrusel. */
@@ -64,6 +65,7 @@ function Modal({ p, onClose, onPrev, onNext }) {
   }, [onClose, onPrev, onNext]);
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
       <div className="animate-overlay-in absolute inset-0 bg-ink/55 backdrop-blur-sm" onClick={onClose} />
 
@@ -115,6 +117,7 @@ function Modal({ p, onClose, onPrev, onNext }) {
         </div>
       </div>
     </div>
+    </Portal>
   );
 }
 

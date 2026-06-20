@@ -1,6 +1,7 @@
 // frontend/src/components/ui/NewsModal.jsx
 import { useEffect } from 'react';
 import { X, Calendar, Tag } from 'lucide-react';
+import Portal from './Portal.jsx';
 
 function formatoFecha(fecha) {
   try {
@@ -20,6 +21,7 @@ export default function NewsModal({ noticia, onClose }) {
   if (!noticia) return null;
 
   return (
+    <Portal>
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
       <div className="animate-overlay-in absolute inset-0 bg-ink/55 backdrop-blur-sm" onClick={onClose} />
       <div className="animate-modal-in relative z-10 w-full max-w-2xl overflow-hidden rounded-3xl border border-line bg-white shadow-lift">
@@ -53,5 +55,6 @@ export default function NewsModal({ noticia, onClose }) {
         </div>
       </div>
     </div>
+    </Portal>
   );
 }
