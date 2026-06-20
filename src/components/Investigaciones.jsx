@@ -9,7 +9,7 @@ import { getInvestigaciones } from '../lib/api.js';
    genera un screenshot de cualquier URL pública. La primera vez puede tardar
    unos segundos (mientras WordPress renderiza la captura), por eso mostramos
    un placeholder animado hasta que la imagen carga.                           */
-function screenshotURL(url, w = 1200, h = 800) {
+function screenshotURL(url, w = 1280, h = 1000) {
   if (!url) return '';
   const limpio = encodeURIComponent(url.trim());
   return `https://s.wordpress.com/mshots/v1/${limpio}?w=${w}&h=${h}`;
@@ -30,7 +30,7 @@ function Preview({ url }) {
   useEffect(() => { setEstado('cargando'); setIntentos(0); }, [src]);
 
   return (
-    <div className="absolute inset-0">
+    <div className="relative h-[56%] shrink-0 overflow-hidden bg-slate-100">
       {/* Placeholder mientras genera/carga la captura */}
       {estado !== 'listo' && (
         <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-slate-100 to-slate-200">
@@ -54,7 +54,7 @@ function Preview({ url }) {
           else setEstado('error');
         }}
         className={`h-full w-full object-cover object-top transition-all duration-[1200ms] ease-out
-          ${estado === 'listo' ? 'scale-100 opacity-100 group-hover:scale-110' : 'scale-105 opacity-0'}`}
+          ${estado === 'listo' ? 'scale-100 opacity-100 group-hover:scale-105' : 'scale-100 opacity-0'}`}
       />
     </div>
   );
@@ -67,44 +67,44 @@ function Tarjeta({ inv, i }) {
       target="_blank"
       rel="noopener noreferrer"
       style={{ animationDelay: `${0.05 * i}s` }}
-      className="group relative flex aspect-[3/4] animate-fade-up flex-col justify-end overflow-hidden rounded-3xl border border-line bg-slate-900 shadow-card transition-all duration-500 hover:-translate-y-2 hover:shadow-lift"
+      className="group relative flex aspect-[3/4] animate-fade-up flex-col overflow-hidden rounded-3xl border border-line bg-white shadow-card transition-all duration-500 hover:-translate-y-2 hover:border-primary-300 hover:shadow-lift"
     >
-      {/* Captura de la página como fondo */}
+      {/* Captura de la página (ventana superior, reserva su altura) */}
       <Preview url={inv.enlace} />
 
-      {/* Degradado para legibilidad del texto */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/5 transition-opacity duration-500 group-hover:from-black/90" />
+      {/* Velo de color sobre la captura al hover */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[56%] bg-primary-500/0 transition-colors duration-500 group-hover:bg-primary-500/10" />
 
-      {/* Aro rojo al hacer hover */}
-      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 transition-all duration-500 group-hover:ring-2 group-hover:ring-primary-400/70" />
-
-      {/* Etiqueta superior (tipo / año) */}
-      <div className="absolute left-4 right-4 top-4 flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-red px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white backdrop-blur-md">
+      {/* Etiqueta superior (tipo / año) — fondo oscuro sólido, legible sobre cualquier captura */}
+      <div className="absolute left-4 right-4 top-4 z-20 flex items-center justify-between">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-ink/85 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white shadow-sm backdrop-blur-sm">
           <Globe size={12} /> {inv.tipo}
         </span>
-        <span className="inline-flex items-center gap-1 rounded-full bg-red px-2.5 py-1 font-mono text-[11px] text-white backdrop-blur-md">
+        <span className="inline-flex items-center gap-1 rounded-full bg-primary-500 px-2.5 py-1 font-mono text-[11px] font-600 text-white shadow-sm">
           <Calendar size={11} /> {inv.anio}
         </span>
       </div>
 
-      {/* Contenido inferior */}
-      <div className="relative z-10 p-5">
-        <h3 className="font-display text-xl font-700 leading-snug text-white drop-shadow-sm">
+      {/* Aro de color al hover */}
+      <div className="pointer-events-none absolute inset-0 z-20 rounded-3xl ring-1 ring-inset ring-black/5 transition-all duration-500 group-hover:ring-2 group-hover:ring-primary-400/60" />
+
+      {/* Contenido inferior sobre tarjeta blanca */}
+      <div className="relative z-10 flex flex-1 flex-col p-5">
+        <h3 className="line-clamp-2 font-display text-lg font-700 leading-snug text-ink transition-colors duration-300 group-hover:text-primary-600">
           {inv.titulo}
         </h3>
-        <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/80">
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-500">
           {inv.resumen}
         </p>
 
-        {/* Fila inferior estilo tarjeta de referencia: chip + botón flotante */}
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <span className="inline-flex max-w-[60%] items-center gap-1.5 truncate rounded-full bg-white/15 px-3 py-1.5 text-xs text-white backdrop-blur-md">
-            <Star size={12} className="fill-primary-400 text-primary-400" />
+        {/* Fila inferior: chip autores + botón */}
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+          <span className="inline-flex max-w-[55%] items-center gap-1.5 truncate rounded-full bg-primary-50 px-3 py-1.5 text-xs text-primary-700">
+            <Star size={12} className="shrink-0 fill-primary-400 text-primary-400" />
             <span className="truncate">{inv.autores || hostDe(inv.enlace)}</span>
           </span>
 
-          <span className="btn-shine inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-600 text-slate-900 shadow-lg transition-all duration-300 group-hover:bg-primary-400 group-hover:text-white">
+          <span className="btn-shine inline-flex shrink-0 items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-sm font-600 text-white shadow-sm transition-all duration-300 group-hover:bg-primary-500">
             Visitar
             <ArrowUpRight size={15} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>

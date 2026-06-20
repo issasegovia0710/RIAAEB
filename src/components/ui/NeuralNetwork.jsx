@@ -9,7 +9,7 @@ import { useEffect, useRef } from 'react';
  * - Capa de "estrellas" lejanas para dar profundidad.
  * Respeta prefers-reduced-motion (queda estático).
  */
-export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
+export default function NeuralNetwork({ density = 0.00013, intensity = 1 }) {
   const canvasRef = useRef(null);
   const rafRef = useRef(0);
 
@@ -44,7 +44,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
     }
 
     function init() {
-      const count = Math.max(40, Math.min(120, Math.floor(width * height * density)));
+      const count = Math.max(18, Math.min(55, Math.floor(width * height * density)));
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -53,7 +53,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
         r: Math.random() * 1.7 + 1.2,
         phase: Math.random() * Math.PI * 2,
       }));
-      const sc = Math.floor(width * height * 0.00012);
+      const sc = Math.floor(width * height * 0.00004);
       stars = Array.from({ length: sc }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -64,7 +64,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
       pulses = [];
     }
 
-    const LINK_DIST = 150;
+    const LINK_DIST = 130;
 
     function step() {
       ctx.clearRect(0, 0, width, height);
@@ -109,7 +109,7 @@ export default function NeuralNetwork({ density = 0.00026, intensity = 1 }) {
             ctx.lineTo(b.x, b.y);
             ctx.stroke();
 
-            if (!reduce && Math.random() < 0.0022 * intensity) {
+            if (!reduce && Math.random() < 0.0010 * intensity) {
               pulses.push({ a, b, t: 0, speed: 0.014 + Math.random() * 0.022 });
             }
           }

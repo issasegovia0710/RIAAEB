@@ -8,8 +8,8 @@ export default function SiteBackground() {
       <div className="absolute inset-0 bg-base" />
       {/* lavado de color claro de arriba a abajo */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary-50/60 via-white to-white" />
-      <div className="absolute inset-0 opacity-40">
-        <NeuralNetwork intensity={0.9} />
+      <div className="absolute inset-0 opacity-40 blur-[1.5px]">
+        <NeuralNetwork intensity={0.7} />
       </div>
       <div className="glow-bg absolute inset-0" />
       <div className="grid-bg absolute inset-0 opacity-50" />

@@ -87,27 +87,39 @@ body { @apply bg-base text-slate-600 font-sans antialiased; }
 /* Zoom suave (cards de investigaciones) */
 @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.08); } }
 
-/* ---------- Panel de administración (tema oscuro aislado) ----------
-   El sitio público es claro, pero el panel /admin reutiliza tokens
-   (bg-base, bg-surface, text-white…) que ahora son claros. Para que el
-   admin siga siendo legible sin reescribirlo, se le reaplica un tema
-   oscuro propio dentro de .admin-shell.                                */
-.admin-shell { background:#070b18; color:#cbd5e1; min-height:100vh; }
-.admin-shell .bg-base    { background-color:#070b18 !important; }
+/* Tinte rojo para logos institucionales (funciona con logos claros u oscuros) */
+.logo-rojo {
+  filter: brightness(0) saturate(100%)
+    invert(28%) sepia(82%) saturate(3200%) hue-rotate(335deg) brightness(92%) contrast(95%);
+}
+.logo-rojo:hover { filter: none; }
+
+/* ---------- Panel de administración (tema oscuro con gama ROJA) ----------
+   El sitio público es claro; el panel /admin reutiliza tokens (bg-base,
+   bg-surface, text-white…) que ahora son claros. Se le reaplica un tema
+   oscuro con acentos rojos dentro de .admin-shell para mantener la marca. */
+.admin-shell { background:#1a0509; color:#f3d9dd; min-height:100vh;
+  background-image:
+    radial-gradient(60% 50% at 80% 0%, rgba(225,29,58,0.12), transparent 70%),
+    radial-gradient(40% 40% at 10% 10%, rgba(255,90,110,0.08), transparent 70%); }
+.admin-shell .bg-base    { background-color:#1a0509 !important; }
 .admin-shell .bg-base\/50,
 .admin-shell .bg-base\/60,
 .admin-shell .bg-base\/70,
 .admin-shell .bg-base\/80,
-.admin-shell .bg-base\/95 { background-color:rgba(7,11,24,.7) !important; }
+.admin-shell .bg-base\/95 { background-color:rgba(26,5,9,.7) !important; }
 .admin-shell .bg-surface,
 .admin-shell .bg-surface\/40,
-.admin-shell .bg-surface\/60 { background-color:#0d1426 !important; }
-.admin-shell .border-line { border-color:#1c2742 !important; }
+.admin-shell .bg-surface\/60 { background-color:#2a0a12 !important; }
+.admin-shell .border-line { border-color:#4a1620 !important; }
 .admin-shell .text-white  { color:#ffffff !important; }
-.admin-shell .text-slate-300 { color:#cbd5e1 !important; }
-.admin-shell .text-slate-400 { color:#94a3b8 !important; }
-.admin-shell .text-slate-500 { color:#64748b !important; }
-.admin-shell .placeholder\:text-slate-600::placeholder { color:#475569 !important; }
+.admin-shell .text-slate-300 { color:#f3d9dd !important; }
+.admin-shell .text-slate-400 { color:#d9a3ad !important; }
+.admin-shell .text-slate-500 { color:#b87a86 !important; }
+.admin-shell .placeholder\:text-slate-600::placeholder { color:#8a4f59 !important; }
+.admin-shell .glow-bg { background:
+  radial-gradient(60% 50% at 70% 0%, rgba(225,29,58,0.18), transparent 70%),
+  radial-gradient(40% 40% at 20% 10%, rgba(255,90,110,0.10), transparent 70%) !important; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition:none !important; animation:none !important; scroll-behavior:auto !important; }

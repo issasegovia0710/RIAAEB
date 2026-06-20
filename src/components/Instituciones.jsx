@@ -12,9 +12,9 @@ export default function Instituciones() {
   if (!items.length) return null;
 
   return (
-    <section className="border-t border-line bg-white py-14">
+    <section className="relative z-10 border-y border-line bg-white py-14">
       <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-9 text-center font-mono text-xs uppercase tracking-[0.2em] text-slate-400">
+        <p className="mb-9 text-center font-mono text-xs uppercase tracking-[0.2em] text-primary-500">
           Instituciones y aliados
         </p>
         <div className="grid grid-cols-2 items-center gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
@@ -30,7 +30,7 @@ export default function Instituciones() {
               <img
                 src={inst.logo_url}
                 alt={inst.nombre}
-                className="h-9 w-auto opacity-60 grayscale transition-all duration-300 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
+                className="logo-rojo h-10 w-auto opacity-80 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100"
               />
             </a>
           ))}
