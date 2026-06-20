@@ -92,7 +92,10 @@ body { @apply bg-base text-slate-600 font-sans antialiased; }
   filter: brightness(0) saturate(100%)
     invert(28%) sepia(82%) saturate(3200%) hue-rotate(335deg) brightness(92%) contrast(95%);
 }
-.logo-rojo:hover { filter: none; }
+.logo-rojo:hover {
+  filter: brightness(0) saturate(100%)
+    invert(28%) sepia(82%) saturate(3200%) hue-rotate(335deg) brightness(108%) contrast(100%);
+}
 
 /* ---------- Panel de administración (tema oscuro con gama ROJA) ----------
    El sitio público es claro; el panel /admin reutiliza tokens (bg-base,

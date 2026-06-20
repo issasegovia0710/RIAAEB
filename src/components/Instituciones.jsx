@@ -30,7 +30,7 @@ export default function Instituciones() {
               <img
                 src={inst.logo_url}
                 alt={inst.nombre}
-                className="logo-rojo h-10 w-auto opacity-80 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100"
+                className="logo-rojo h-10 w-auto opacity-80 transition-all duration-300 group-hover:scale-125 group-hover:opacity-100"
               />
             </a>
           ))}

@@ -3,16 +3,45 @@ import { useState } from 'react';
 import { Upload, Loader2, Link2 } from 'lucide-react';
 import { subirArchivo } from '../lib/api.js';
 
+/* Convierte cualquier imagen a WebP en el navegador antes de subirla.
+   Si el navegador no soporta WebP (muy raro) o falla, devuelve el archivo original. */
+async function aWebp(file, calidad = 0.9, maxLado = 2000) {
+  if (!file.type.startsWith('image/')) return file;
+  // No reconvertir si ya es webp
+  if (file.type === 'image/webp') return file;
+  try {
+    const bitmap = await createImageBitmap(file);
+    let { width, height } = bitmap;
+    // Limitar dimensiones máximas conservando proporción
+    if (Math.max(width, height) > maxLado) {
+      const r = maxLado / Math.max(width, height);
+      width = Math.round(width * r);
+      height = Math.round(height * r);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = width; canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    const blob = await new Promise((res) => canvas.toBlob(res, 'image/webp', calidad));
+    if (!blob) return file;
+    const nombre = file.name.replace(/\.[^.]+$/, '') + '.webp';
+    return new File([blob], nombre, { type: 'image/webp' });
+  } catch {
+    return file; // fallback al original
+  }
+}
+
 export default function FileField({ label, value, onChange }) {
   const [subiendo, setSubiendo] = useState(false);
   const [error, setError] = useState('');
   const [modoUrl, setModoUrl] = useState(false);
 
   const onFile = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const original = e.target.files?.[0];
+    if (!original) return;
     setSubiendo(true); setError('');
     try {
+      const file = await aWebp(original);
       const { url } = await subirArchivo(file);
       onChange(url);
     } catch (err) {
@@ -47,12 +76,13 @@ export default function FileField({ label, value, onChange }) {
           ) : (
             <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-line bg-base px-3 py-2.5 text-sm text-slate-300 hover:border-primary-400">
               {subiendo ? <Loader2 size={15} className="animate-spin" /> : <Upload size={15} />}
-              {subiendo ? 'Subiendo…' : 'Seleccionar imagen'}
+              {subiendo ? 'Convirtiendo y subiendo…' : 'Seleccionar imagen'}
               <input type="file" accept="image/*" className="hidden" onChange={onFile} disabled={subiendo} />
             </label>
           )}
         </div>
       </div>
+      {!modoUrl && <p className="mt-1 text-[11px] text-slate-500">La imagen se convertirá automáticamente a WebP antes de subirse.</p>}
       {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
     </div>
   );

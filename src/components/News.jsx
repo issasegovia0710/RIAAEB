@@ -1,14 +1,89 @@
 // frontend/src/components/News.jsx
-import { useEffect, useState } from 'react';
-import { Calendar, History, X, ArrowRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Calendar, History, X, Tag } from 'lucide-react';
 import SectionTitle from './ui/SectionTitle.jsx';
-import Spotlight from './ui/Spotlight.jsx';
 import { getNoticias } from '../lib/api.js';
 
 function formatoFecha(fecha) {
   try {
     return new Date(fecha).toLocaleDateString('es-MX', { day: '2-digit', month: 'long', year: 'numeric' });
   } catch { return fecha; }
+}
+
+/* Nodo de la línea de tiempo: aparece con animación al entrar en viewport.
+   Sin imágenes: solo categoría, fecha, título y extracto. */
+function Nodo({ n, lado, i }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.25 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const izq = lado === 'izq';
+
+  return (
+    <div ref={ref} className="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] md:items-center">
+      {/* Columna izquierda (desktop) */}
+      <div className="hidden md:flex md:justify-end md:pr-8">
+        {izq && <Tarjeta n={n} visible={visible} desde="izq" delay={i * 0.05} />}
+      </div>
+
+      {/* Eje central + punto */}
+      <div className="relative flex justify-start md:justify-center">
+        <span
+          className={`relative z-10 mt-6 grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 border-white bg-primary-500 shadow-[0_0_0_4px_rgba(225,29,58,0.15)] transition-all duration-500
+            ${visible ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+        </span>
+      </div>
+
+      {/* Columna derecha */}
+      <div className="pl-6 md:pl-8">
+        {/* Móvil: siempre a la derecha del eje */}
+        <div className="md:hidden">
+          <Tarjeta n={n} visible={visible} desde="der" delay={i * 0.05} />
+        </div>
+        {/* Desktop: solo si el lado es derecho */}
+        <div className="hidden md:block">
+          {!izq && <Tarjeta n={n} visible={visible} desde="der" delay={i * 0.05} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Tarjeta({ n, visible, desde, delay }) {
+  const trans = visible
+    ? 'translate-x-0 opacity-100 rotate-0'
+    : `${desde === 'izq' ? '-translate-x-10' : 'translate-x-10'} opacity-0`;
+  return (
+    <div
+      style={{ transitionDelay: `${delay}s` }}
+      className={`spotlight group my-4 rounded-2xl border border-line bg-white p-5 shadow-sm transition-all duration-700 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1 hover:border-primary-300 hover:shadow-lift ${trans}`}
+    >
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-primary-500 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white">
+          <Tag size={11} /> {n.categoria}
+        </span>
+        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-slate-400">
+          <Calendar size={12} /> {formatoFecha(n.fecha)}
+        </span>
+      </div>
+      <h3 className="mt-3 font-display text-lg font-700 leading-snug text-ink transition-colors group-hover:text-primary-600">
+        {n.titulo}
+      </h3>
+      <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{n.extracto}</p>
+    </div>
+  );
 }
 
 export default function News() {
@@ -27,82 +102,55 @@ export default function News() {
     return () => { document.body.style.overflow = ''; };
   }, [historial]);
 
-  const recientes = noticias.slice(0, 5);
+  const recientes = noticias.slice(0, 6);
 
   return (
     <section id="noticias" className="relative overflow-hidden border-t border-line py-24">
-      <div className="relative mx-auto max-w-7xl px-6">
-        <SectionTitle
-          index="03"
-          eyebrow="Noticias"
-          title="Lo último de la Red"
-          subtitle="Las publicaciones más recientes en una línea de tiempo. Abre el historial para ver todas."
-        />
+      <div className="glow-bg pointer-events-none absolute inset-0 opacity-40" />
+      <div className="relative mx-auto max-w-5xl px-6">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <SectionTitle
+            index="03"
+            eyebrow="Noticias"
+            title="Lo último de la Red"
+            subtitle="Una línea de tiempo de nuestras publicaciones más recientes."
+          />
+          <button
+            onClick={() => setHistorial(true)}
+            disabled={estado !== 'listo'}
+            className="btn-shine group inline-flex shrink-0 items-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-600 text-ink transition-all hover:border-primary-400 hover:text-primary-600 hover:shadow-card disabled:opacity-50"
+          >
+            <History size={16} /> Ver historial ({noticias.length})
+          </button>
+        </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[260px_1fr]">
-          {/* Historial (izquierda) */}
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <Spotlight className="rounded-2xl border border-line bg-white p-6 shadow-sm transition-all duration-300 hover:border-primary-300 hover:shadow-lift">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary-50 text-primary-500">
-                <History size={20} />
-              </span>
-              <h3 className="mt-4 font-display text-lg font-700 text-ink">Historial</h3>
-              <p className="mt-1 text-sm text-slate-500">
-                Consulta el archivo completo de comunicados, eventos y convocatorias.
-              </p>
-              <button
-                onClick={() => setHistorial(true)}
-                disabled={estado !== 'listo'}
-                className="btn-shine group mt-4 inline-flex items-center gap-2 rounded-xl border border-line bg-soft px-4 py-2.5 text-sm font-600 text-ink transition-all hover:border-primary-400 hover:text-primary-600 hover:shadow-card disabled:opacity-50"
-              >
-                Ver todo ({noticias.length})
-                <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
-              </button>
-            </Spotlight>
-          </div>
+        <div className="relative mt-14">
+          {/* Eje vertical de la línea de tiempo */}
+          <div className="absolute left-[9px] top-0 h-full w-px bg-gradient-to-b from-primary-400 via-line to-transparent md:left-1/2 md:-translate-x-1/2" />
 
-          {/* Línea de tiempo (derecha) */}
-          <div className="relative">
-            {estado === 'cargando' && (
-              <div className="space-y-6">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="h-24 animate-pulse rounded-2xl border border-line bg-white" />
-                ))}
-              </div>
-            )}
-            {estado === 'error' && (
-              <p className="rounded-xl border border-primary-200 bg-primary-50 p-6 text-sm text-primary-700">
-                No pudimos cargar las noticias. Verifica que el backend esté en ejecución.
-              </p>
-            )}
-            {estado === 'listo' && (
-              <ol className="relative ml-3 border-l border-line">
-                {recientes.map((n) => (
-                  <li key={n.id} className="relative mb-8 pl-8">
-                    <span className="absolute -left-[7px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-primary-500 shadow-[0_0_12px_rgba(225,29,58,.5)]" />
-                    <Spotlight className="group rounded-2xl border border-line bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-lift">
-                      <div className="flex items-center gap-3">
-                        <span className="rounded-full bg-primary-500 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white">
-                          {n.categoria}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 font-mono text-xs text-slate-400">
-                          <Calendar size={12} /> {formatoFecha(n.fecha)}
-                        </span>
-                      </div>
-                      <h3 className="mt-3 font-display text-lg font-700 leading-snug text-ink group-hover:text-primary-600">
-                        {n.titulo}
-                      </h3>
-                      <p className="mt-1.5 text-sm leading-relaxed text-slate-500">{n.extracto}</p>
-                    </Spotlight>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </div>
+          {estado === 'cargando' && (
+            <div className="space-y-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="ml-8 h-24 animate-pulse rounded-2xl border border-line bg-white md:ml-0" />
+              ))}
+            </div>
+          )}
+          {estado === 'error' && (
+            <p className="ml-8 rounded-xl border border-primary-200 bg-primary-50 p-6 text-sm text-primary-700 md:ml-0">
+              No pudimos cargar las noticias. Verifica que el backend esté en ejecución.
+            </p>
+          )}
+          {estado === 'listo' && (
+            <div className="space-y-2">
+              {recientes.map((n, i) => (
+                <Nodo key={n.id} n={n} i={i} lado={i % 2 === 0 ? 'izq' : 'der'} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Panel de historial completo */}
+      {/* Panel de historial completo (sin imágenes) */}
       {historial && (
         <div className="fixed inset-0 z-[100] flex justify-end">
           <div className="animate-overlay-in absolute inset-0 bg-ink/40 backdrop-blur-sm" onClick={() => setHistorial(false)} />
@@ -117,21 +165,15 @@ export default function News() {
                 <X size={18} />
               </button>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-3">
               {noticias.map((n) => (
-                <article key={n.id} className="group overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-lift">
-                  <div className="relative h-36 overflow-hidden">
-                    <img src={n.imagen_url} alt={n.titulo} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
-                    <span className="absolute left-3 top-3 rounded-full bg-primary-500 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white">
-                      {n.categoria}
-                    </span>
+                <article key={n.id} className="group rounded-2xl border border-line bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-lift">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-primary-500 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white">{n.categoria}</span>
+                    <span className="font-mono text-[11px] text-slate-400">{formatoFecha(n.fecha)}</span>
                   </div>
-                  <div className="p-4">
-                    <p className="font-mono text-[11px] text-slate-400">{formatoFecha(n.fecha)}</p>
-                    <h4 className="mt-1 font-display text-sm font-700 leading-snug text-ink">{n.titulo}</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-500">{n.extracto}</p>
-                  </div>
+                  <h4 className="mt-2 font-display text-base font-700 leading-snug text-ink">{n.titulo}</h4>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-500">{n.extracto}</p>
                 </article>
               ))}
             </div>
